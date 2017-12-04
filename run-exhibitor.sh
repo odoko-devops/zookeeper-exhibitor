@@ -2,10 +2,6 @@
 
 CMD=$1
 
-function configure_s3 {
-    sed -i -e "s/\${AWS_ACCESS_KEY}/${AWS_ACCESS_KEY}/" -e "s/\${AWS_SECRET_KEY}/${AWS_SECRET_KEY}/" /root/.s3cfg
-}
-
 function upload_config {
     sed -i "s/\$ZOOKEEPER_COUNT/$ZOOKEEPER_COUNT/" exhibitor.properties
     aws s3 put exhibitor.properties s3://${S3_BUCKET}/${S3_PREFIX}
@@ -53,7 +49,6 @@ EOF
 
 case $CMD in
 init)
-    configure_s3
     upload_config
     ;;
 run)
